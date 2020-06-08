@@ -1,6 +1,6 @@
-# Audible Special Promo Scraper
+# Audible Special Promo Sale Scraper
 
-Generates [markdown](phone-reddit-post-example.png), [html](https://codepen.io/joonaspaakko/full/KKVdWwV) and [plain text](plaintext-output-example.md) list of all the sale items.
+Generates [markdown](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), [html](https://codepen.io/joonaspaakko/full/KKVdWwV) and [plain text](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md) list of all the sale items.
 
 ## A word of warning
 
@@ -15,7 +15,7 @@ Just as a heads up, Firefox will give you this warning message when you try to p
 0. Go to the sale page.
 	- As an example, here's the current _(June 2020)_ US sale page: [https://www.audible.com/special-promo/2for1](https://www.audible.com/special-promo/2for1).
 	- The script won't work if you navigate to one of the sub pages of the sale. It has to be the first page of the sale.
-1. Copy the script into your clipboard from here `(Ctrl+C)`: [Audible Special Promo Sale Scraper.js](Audible Special Promo Sale Scraper.js)
+1. Copy the script into your clipboard from here `(Ctrl+C)`: [Audible Special Promo Sale Scraper.js](https://raw.githubusercontent.com/joonaspaakko/audible-special-promo-sale-scraper/master/Audible%20Special%20Promo%20Sale%20Scraper.js)
 2. Open your browsers developer tools console. The easy way is to right click anywhere on a website, choose `Inspect element` from the context menu and then click the `Console` tab.
 3. Paste `(Ctrl+V)` the script into the console and press enter.
 
@@ -29,11 +29,9 @@ Here's a video where I paste the script into the console and let it do it's thin
 
 **Markdown**
 
-Here's what the normal markdown output will look in a reddit post
+An example of what the markdown output looks like in [a reddit post (mobile)](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png).
 
 > There's also a variable at the top called `slimMarkdown`. Making it `false` will give you a beefier output, but there's a good chance it won't fit within the character limit of a reddit post at least. [Beefy markdown example](full-markdown-output-example.md)
-
-![](phone-reddit-post-example.png)
 
 **HTML**
 
@@ -41,7 +39,7 @@ Here's what the normal markdown output will look in a reddit post
 
 **Plain text
 
-Plain text is similar to the slimmed down markdown output, though even a little big slimmer. It's just the title and the url
+Plain text is similar to the slimmed down markdown output, though even a little big slimmer. It's just the title and the url. [Example file](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md).
 
 ## Browser support
 
