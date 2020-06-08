@@ -37,7 +37,7 @@ An example of what the markdown output looks like in [a reddit post (mobile)](ht
 
 [example in Codepen](https://codepen.io/joonaspaakko/full/KKVdWwV)
 
-**Plain text
+**Plain text**
 
 Plain text is similar to the slimmed down markdown output, though even a little big slimmer. It's just the title and the url. [Example file](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md).
 
