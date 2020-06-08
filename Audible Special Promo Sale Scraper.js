@@ -143,7 +143,8 @@
 
 			if ( storage.oldData ) {
 				$.each( storage.data.books, function( categoryName, category ) {
-					uniqueBoys[ categoryName ] = _.difference( category, storage.oldData.books[ categoryName ]);
+					var changes = _.differenceBy( category, storage.oldData.books[ categoryName ], 'title');
+					if ( !_.isEmpty( changes ) ) uniqueBoys[ categoryName ] = changes;
 				});
 			}
 			
@@ -328,9 +329,9 @@
 		}());
 		html += '<ul class="top-nav">'+ navItems +'</ul>';
 		
-		if ( _.isEmpty( uniqueBoys) ) {
+		if ( !_.isEmpty( uniqueBoys ) ) {
 			$.each( uniqueBoys, function( categoryName, category ) {
-				output( categoryName, category, unique );
+				output( categoryName, category, true );
 			});
 		}
 		
@@ -340,9 +341,10 @@
 		
 		function output( categoryName, category, unique ) {
 			// Category heading
-			markdown += '\n\n### ' + categoryName + '\n';
-			html += '\n\n<h2 id="'+ slugify( categoryName ) + (unique ? '-unique' : '') +'" class="category-title">'+ categoryName + (unique ? '(New additions)' : '') +'</h2> \n';
-			plaintext += '\n\n' + categoryName + '\n\n';
+			var newAdditions = (unique ? ' (New additions)' : '');
+			markdown += '\n\n### ' + categoryName + newAdditions + '\n';
+			html += '\n\n<h2 id="'+ slugify( categoryName ) + (unique ? '-unique' : '') +'" class="category-title">'+ categoryName + newAdditions + '</h2> \n';
+			plaintext += '\n\n' + categoryName + newAdditions + '\n\n';
 			
 			// Books
 			$.each( category, function( index, book ) {

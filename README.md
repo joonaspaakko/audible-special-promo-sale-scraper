@@ -29,6 +29,30 @@ If you want to preview the markdown code, you should check out [https://pandao.g
 
 Here's a video where I paste the script into the console and let it do it's thing: https://youtu.be/5ioVQhsMbNY - It's not an incredibly step by step video, but if you're not sure where to paste the code, this should help to confirm the right place and give you an idea of what to expect from the script.
 
+## Special features - Isolating new additions ( v.1.2. )
+
+If you run the script at least once before and once after there is a change in the sale, the new additions get added to the front of the list. Check the example below. But you can only do it once. When you run the script after a change, that's when the comparison happens and the list is overwritten, meaning any following attempts to run the script will just output a clean list, until the list changes again.
+
+> Important:
+> - You need to run the script in the same browser for this to work.
+> - If you clear the browser cache the old list will likely get wiped.
+> - If you run the script on a different sale, or the output is wrong, you may have to run it again to clear the old list from the memory.
+
+```markdown
+### Mysteries & Thrillers (New additions)
+1. [Book 2](#)
+  - **Rating:** 4.5 (999)
+
+### Mysteries & Thrillers
+
+1. [Book 1](#)
+  - **Rating:** 4.5 (999)
+2. [Book 2](#)
+  - **Rating:** 4.5 (999)
+2. [Book 3](#)
+  - **Rating:** 4.5 (999)
+```
+
 ## Examples
 
 **Markdown**
