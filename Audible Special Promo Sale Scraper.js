@@ -57,7 +57,7 @@
 				
 				var category = $(this).find('> div > div > div > div:nth-child(1) > div.bc-col > [id^="adbl-carousel-heading-"]').text().trimAll();
 				var url = new Url( window.location.origin + viewAllLink.attr('href') );
-				url.query.pageSize = '20';
+				url.query.pageSize = '50';
 				url.query.page = '1';
 				
 				storage.data.category.push({
@@ -93,15 +93,13 @@
 				var audible = iframe.contents().find('body');
 				iframe[0].contentDocument.defaultView.stop();
 				
-				
 				if ( !subPages ) {
-					var numberEl = $('#pagination-a11y-skiplink-target .pageNumberElement');
+					// var paginationExists = audible.find('[data-bc-a11y-dynamic-skiplink-display-value="Pagination"]').length;
+					var lastPageNumberEl = audible.find('#pagination-a11y-skiplink-target .pageNumberElement[data-value]:last');
 					subPages = [];
-					if ( numberEl.length > 0 ) {
-						numberEl.each(function( index ) {
-							var pageNumber = $(this).data('value');
-							subPages.push( pageNumber );
-						});
+					if ( lastPageNumberEl.length > 0 ) {
+						var lastPageNumber = parseFloat( lastPageNumberEl.data('value') );
+						subPages = _.range(1, lastPageNumber+1);
 						subPages.shift();
 					}
 				}
@@ -119,8 +117,6 @@
 				// Move to next page
 				if ( subPages.length > 0 ) {
 					
-					console.log( 'subPages' );
-					console.log( subPages );
 					loadPage( subPages.length > 0 ? subPages : null );
 					
 				}
@@ -306,7 +302,7 @@
 		var html = [];
 		$.each( array, function( key, object ) {
 			var bookNumbers = series && object.bookNumbers ? ' book ' + object.bookNumbers.join(',') : '';
-			html.push( '<a href="' + object.page + '">'+ object.name +'</a>' + bookNumbers );
+			html.push( '<a target="_blank" href="' + object.page + '">'+ object.name +'</a>' + bookNumbers );
 		});
 		return html.join(', ');
 		
@@ -371,7 +367,7 @@
 				html += '\n\n<div class="book"> \n' +
 					'<img class="cover" src="'+ book.cover +'" alt=""/> \n' +
 					'<div class="book-info"> \n'+
-						'<a class="title" href="'+ book.page +'">'+ book.title +'</a> \n' +
+						'<a class="title" target="_blank" href="'+ book.page +'">'+ book.title +'</a> \n' +
 						'<div class="authors"><strong>Authors:</strong> ' + linkArrayToHTML( book.authors ) + '</div>'+
 						'<div class="narrators"><strong>Narrators:</strong> ' + linkArrayToHTML( book.narrators ) + '</div>'+
 						(book.series ? '<div class="series"><strong>Series:</strong> ' + linkArrayToHTML( book.series, true ) + '</div>' : '') +
@@ -394,6 +390,9 @@
 			'.top-nav, .top-nav li {' +
 			  'margin: 0;' +
 			  'padding: 0;' +
+			'}' +
+			'.top-nav li {' +
+			  'margin-bottom: 8px;' +
 			'}' +
 			'.top-nav,' +
 			'.category-title, ' +

@@ -12,6 +12,8 @@ Just as a heads up, Firefox will give you this warning message when you try to p
 
 ## Usage
 
+> You don't need to know how to code or read any code to use this script. It would be preferrable, as stated above, but the only thing you need to know is how to copy & paste.
+
 0. Go to the sale page.
 	- As an example, here's the current _(June 2020)_ US sale page: [https://www.audible.com/special-promo/2for1](https://www.audible.com/special-promo/2for1).
 	- The script won't work if you navigate to one of the sub pages of the sale. It has to be the first page of the sale.
@@ -21,7 +23,9 @@ Just as a heads up, Firefox will give you this warning message when you try to p
 
 You should pretty must right away start seeing stuff happening in the console. When the script is done, it will replace the contents of the page with 3 text boxes with the different outputs. You can refresh the page to load the normal Audible sale page again.
 
-If you're posting on reddit, you will probably want the Markdown output. Just make sure to click the `Markdown editor` button in the top right of the post editor.
+If you're posting on reddit, you will probably want the Markdown output. Just make sure to click the `Markdown editor` button in the top right of the post editor before pasting the code in. Note: you can't switch back to the default fancypants editor or the markdown will get mangled.
+
+If you want to preview the markdown code, you should check out [https://pandao.github.io/editor.md/](https://pandao.github.io/editor.md/).
 
 Here's a video where I paste the script into the console and let it do it's thing: https://youtu.be/5ioVQhsMbNY - It's not an incredibly step by step video, but if you're not sure where to paste the code, this should help to confirm the right place and give you an idea of what to expect from the script.
 

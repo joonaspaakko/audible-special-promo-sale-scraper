@@ -32,6 +32,12 @@ Frankenstein → https://www.audible.com/pd/Frankenstein-Audiobook/B00FQRCM9O?ip
 
 Slaughterhouse-Five → https://www.audible.com/pd/Slaughterhouse-Five-Audiobook/B015ELUYL4?ipRedirectOverride=true&overrideBaseCountry=true
 
+The Poisonwood Bible → https://www.audible.com/pd/The-Poisonwood-Bible-Audiobook/B002UZJJHI?ipRedirectOverride=true&overrideBaseCountry=true
+
+The Murmur of Bees → https://www.audible.com/pd/The-Murmur-of-Bees-Audiobook/1721357491?ipRedirectOverride=true&overrideBaseCountry=true
+
+Lady Clementine → https://www.audible.com/pd/Lady-Clementine-Audiobook/B082T3J1MH?ipRedirectOverride=true&overrideBaseCountry=true
+
 
 
 Mysteries & Thrillers
@@ -159,6 +165,12 @@ Sex at Dawn → https://www.audible.com/pd/Sex-at-Dawn-Audiobook/B004966PJQ?ipRe
 How to Talk to Anyone → https://www.audible.com/pd/How-to-Talk-to-Anyone-Audiobook/B013F5WEZK?ipRedirectOverride=true&overrideBaseCountry=true
 
 Algorithms to Live By → https://www.audible.com/pd/Algorithms-to-Live-By-Audiobook/B01D24NLWO?ipRedirectOverride=true&overrideBaseCountry=true
+
+Indistractable → https://www.audible.com/pd/Indistractable-Audiobook/B07SXBB3FS?ipRedirectOverride=true&overrideBaseCountry=true
+
+The Phoenix Project → https://www.audible.com/pd/The-Phoenix-Project-Audiobook/B00VAZZY32?ipRedirectOverride=true&overrideBaseCountry=true
+
+Act like a Lady, Think like a Man → https://www.audible.com/pd/Act-like-a-Lady-Think-like-a-Man-Audiobook/B00LNHQ7EC?ipRedirectOverride=true&overrideBaseCountry=true
 
 
 
