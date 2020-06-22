@@ -30,7 +30,7 @@
 	var get = function( url, callback ) {
 		var script = document.createElement('script');
 		script.onload = function () {
-		  callback();
+			callback();
 		};
 		script.src = url;
 		document.head.appendChild(script);
@@ -69,6 +69,7 @@
 			}
 		});
 		
+		// A recursive function that gets called over and over again until every single required page has been processed
 		loadPage();
 		
 	}
@@ -197,29 +198,29 @@
 			seriesString = $.parseHTML(seriesString);
 			var series = [];
 			$.each( seriesString, function( index, object ) {
-			  
-			  var string = object.textContent.trim().replace(/^\,/,'').trim().replace(/\,$/, "");
 				
-			  var titleRow = (index+1) % 2;
-			  var numberRow = !titleRow;
-			  
-			  if ( titleRow ) {
+				var string = object.textContent.trim().replace(/^\,/,'').trim().replace(/\,$/, "");
+				
+				var titleRow = (index+1) % 2;
+				var numberRow = !titleRow;
+				
+				if ( titleRow ) {
 					series.push({
-			      name: string,
-			      page: object.href
-			    });
-			  }
+						name: string,
+						page: object.href
+					});
+				}
 				else if ( numberRow ) {
-			  	if ( string.match(/\d/) ) {
-			    	// Trims text from the front ("Book ") and splits numbers separated by commas
-			    	var numbers = string.replace(/^[^0-9]*/g, '').trim().split(',');
-			      // Numbers are added to the previous item
-			      var lastItem = series[ series.length-1 ];
-			      lastItem.bookNumbers  = jQuery.map( numbers, function( n, i ) {
-			        return parseFloat( n );
-			      });
-			     }
-			  }
+					if ( string.match(/\d/) ) {
+						// Trims text from the front ("Book ") and splits numbers separated by commas
+						var numbers = string.replace(/^[^0-9]*/g, '').trim().split(',');
+						// Numbers are added to the previous item
+						var lastItem = series[ series.length-1 ];
+						lastItem.bookNumbers  = jQuery.map( numbers, function( n, i ) {
+							return parseFloat( n );
+						});
+					 }
+				}
 
 			});
 			
@@ -229,7 +230,7 @@
 		else { book.series = null; }
 		
 		var length = middleColumn.find('li.bc-list-item.runtimeLabel span');
-		book.length = length.length > 0 ? length.text().trimAll() : null;
+		book.length = length.length > 0 ? length.text().split(':')[1].trimAll() : null;
 		
 		var releaseDate  = middleColumn.find('li.bc-list-item.releaseDateLabel span');
 		book.releaseDate = releaseDate.length > 0 ? releaseDate.text().split(':')[1].trimAll() : null;
@@ -272,20 +273,20 @@
 	}
 	
 	function slugify(text) {
-	  const from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;"
-	  const to = "aaaaaeeeeeiiiiooooouuuunc------"
+		const from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;"
+		const to = "aaaaaeeeeeiiiiooooouuuunc------"
 
-	  const newText = text.split('').map(
-	    (letter, i) => letter.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i)))
+		const newText = text.split('').map(
+			(letter, i) => letter.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i)))
 
-	  return newText
-	    .toString()                     // Cast to string
-	    .toLowerCase()                  // Convert the string to lowercase letters
-	    .trim()                         // Remove whitespace from both sides of a string
-	    .replace(/\s+/g, '-')           // Replace spaces with -
-	    .replace(/&/g, '-and-')           // Replace & with 'and'
-	    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-	    .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+		return newText
+			.toString()                     // Cast to string
+			.toLowerCase()                  // Convert the string to lowercase letters
+			.trim()                         // Remove whitespace from both sides of a string
+			.replace(/\s+/g, '-')           // Replace spaces with -
+			.replace(/&/g, '-and-')           // Replace & with 'and'
+			.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+			.replace(/\-\-+/g, '-');        // Replace multiple - with single -
 	}
 	
 	function linkArrayToMarkdown( array, series ) {
@@ -342,7 +343,7 @@
 		function output( categoryName, category, unique ) {
 			// Category heading
 			var newAdditions = (unique ? ' (New additions)' : '');
-			markdown += '\n\n### ' + categoryName + newAdditions + '\n';
+			markdown += '\n\n### ' + categoryName + newAdditions + '\n\n';
 			html += '\n\n<h2 id="'+ slugify( categoryName ) + (unique ? '-unique' : '') +'" class="category-title">'+ categoryName + newAdditions + '</h2> \n';
 			plaintext += '\n\n' + categoryName + newAdditions + '\n\n';
 			
@@ -390,61 +391,69 @@
 		// HTML styling
 		html += '\n\n<style>' +
 			'.top-nav, .top-nav li {' +
-			  'margin: 0;' +
-			  'padding: 0;' +
+				'margin: 0;' +
+				'padding: 0;' +
 			'}' +
 			'.top-nav li {' +
-			  'margin-bottom: 8px;' +
+				'margin-bottom: 8px;' +
 			'}' +
 			'.top-nav,' +
 			'.category-title, ' +
 			'.book {' +
-			  "font-family: 'Helvetica Neue', sans-serif;" +
-			  'max-width: 600px;' +
-			  'margin: 0 auto;' +
+				"font-family: 'Helvetica Neue', sans-serif;" +
+				'max-width: 600px;' +
+				'margin: 0 auto;' +
 			'}' +
 			'.category-title {' +
-			  'margin-top: 80px;' +
+				'margin-top: 80px;' +
 			'}' +
 			'.category-title:first-child { margin-top: 0; }' +
 			'.book {' +
-			  'border: 1px solid rgba(0,0,0, .08);' +
-			  'background: rgba(0,0,0, .03);' +
-			  'display: flex;' +
-			  'flex-direction: row;' +
-			  'padding: 20px;' +
-			  'margin-bottom: 10px;' +
+				'border: 1px solid rgba(0,0,0, .08);' +
+				'background: rgba(0,0,0, .03);' +
+				'display: flex;' +
+				'flex-direction: row;' +
+				'padding: 20px;' +
+				'margin-bottom: 10px;' +
 			'}' +
 			'.book img.cover {' +
-			  'width: 150px;' +
-			  'height: auto;' +
-			  'justify-self: center;' +
-			  'align-self: start;' +
-			  'padding-right: 20px;' +
+				'width: 150px;' +
+				'height: auto;' +
+				'justify-self: center;' +
+				'align-self: start;' +
+				'padding-right: 20px;' +
 			'}' +
 			'.book .h3 {' +
-			  'margin: 0;' +
+				'margin: 0;' +
 			'}' +
 			'.book .title {' +
-			  'margin: 0;' +
+				'margin: 0;' +
 			'}' +
 		'</style>';
 		
 		$('body').html('');
 		
 		var textareaCSS = {
-	    width: '100%',
-	    height: 200,
-	    marginBottom: 30
+			width: '100%',
+			height: 200,
+			marginBottom: 30
 		};
-		$('<strong>Markdown:</strong>').appendTo('body');
-		$('<textarea/>', { text: markdown, css: textareaCSS }).appendTo('body');
-		$('<br>').appendTo('body');
-		$('<strong>HTML:</strong>').appendTo('body');
-		$('<textarea/>', { text: html, css: textareaCSS }).appendTo('body');
-		$('<br>').appendTo('body');
-		$('<strong>Plain Text:</strong>').appendTo('body');
-		$('<textarea/>', { text: plaintext, css: textareaCSS }).appendTo('body');
+		
+		$('<style> html, body, .scraper-row { height: 100% !important; } .scraper-row, .scraper-col-wrapper { display: flex; flex-direction: row; align-content: stretch; align-items: stretch; margin: 0 !important; height: 100%; flex-grow: 1; width: 100%; } .scraper-col-wrapper { flex-direction: column; margin-left: 20px !important; text-align: center; padding-top: 20px; } .scraper-col-wrapper:first-child { margin-left: 0px !important; } textarea { margin-bottom: 0px !important; height: unset !important; flex-grow: 1; height: 100%; }</style>').appendTo('body');
+		
+		var row = $('<div class="scraper-row">').appendTo('body');
+		
+		var markdownWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
+		$('<strong>Markdown:</strong>').appendTo( markdownWrapper );
+		$('<textarea/>', { text: markdown.trim(), css: textareaCSS }).appendTo( markdownWrapper );
+		
+		var htmlWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
+		$('<strong>HTML:</strong>').appendTo( htmlWrapper );
+		$('<textarea/>', { text: html.trim(), css: textareaCSS }).appendTo( htmlWrapper );
+		
+		var plaintextWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
+		$('<strong>Plain Text:</strong>').appendTo( plaintextWrapper );
+		$('<textarea/>', { text: plaintext.trim(), css: textareaCSS }).appendTo( plaintextWrapper );
 		
 	}
 	
