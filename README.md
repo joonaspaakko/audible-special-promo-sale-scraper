@@ -2,6 +2,8 @@
 
 Generates a list of all sale items in: `markdown` that looks [like this on a reddit post](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), `html` that looks [like this](https://codepen.io/joonaspaakko/full/KKVdWwV) when rendered, and `plain text` that looks [like this](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md)
 
+Updated to work with the mid summer sale over at US audible: [link to the html output](https://codepen.io/joonaspaakko/live/ExPJROy). Has potential to work with similar sales that have horizontal categories sub menu.
+
 ## A word of warning
 
 Use at your own risk. I have good intentions, but you shouldn't go copy pasting scripts into your browser's console all willy nilly. Just as a heads up, Firefox will give you this warning message when you try to paste things into the console. You should probably heed the warning:
@@ -25,11 +27,13 @@ ___
 
 ### What else?
 
-If you're posting on Reddit, you will probably want the Markdown output. Just make sure to click the `Markdown editor` button in the top right of the post editor before pasting the code in. If you want to preview the markdown code, you should check out this [online Markdown editor](https://pandao.github.io/editor.md/en.html). 
+If you're posting on Reddit, you will probably want the Markdown output. Just make sure to click the `Markdown editor` button in the top right of the post editor before pasting the code in. If you want to preview the markdown code, you should check out this [online Markdown editor](https://pandao.github.io/editor.md/en.html).
 
 **Note:** you can't switch back to the default fancypants editor on reddit or the markdown will get mangled. However, if rich text is more your thing, you can get around that with the formatting staying fairly intact by copying the text from the online markdown editor's preview and paste that into Reddit instead.
 
 ## Special features - Isolating new additions ( v.1.2. )
+
+> In v1.3. I added a variable that disables this called `showUniques`. It is off by default. It was ok in theory, but if the sale changed either fully or with just a few repeat titles, the outputs became kinda cluttered and hard to read. It might've been a better idea to just add "new addition" to each book rather than output 2 separate lists.
 
 If you run the script at least once before and once after the sale items change, new additions are detected and they are added to the front of the list. **Check the example below.** But you can only do it once. When you run the script after a change, that's when the comparison happens and the list is overwritten, meaning any following attempts to run the script will just output a clean list, until the sale changes again.
 
