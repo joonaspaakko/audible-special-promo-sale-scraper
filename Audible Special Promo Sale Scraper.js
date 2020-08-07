@@ -1,4 +1,4 @@
-// V.1.3.
+// V.1.4.
 (function() {
   
   var slimMarkdown = true;
@@ -192,6 +192,7 @@
     // Cover and sample
     var leftColumn = row.find('> div > div.bc-col-responsive.bc-spacing-top-none.bc-col-8 > div > div.bc-col-responsive.bc-col-5 > div > div > div.bc-col-responsive.bc-spacing-top-none.bc-col-9 > div > div.bc-col-responsive.bc-col-4 > div');
     if ( leftColumn.length < 1 ) leftColumn = row.find('> div > div.bc-col-responsive.bc-spacing-top-none.bc-col-9 > div > div.bc-col-responsive.bc-col-4 > div');
+		if ( leftColumn.length < 1 ) leftColumn = row.find('> div > div.bc-col-responsive.bc-spacing-top-none.bc-col-8 > div > div.bc-col-responsive.bc-col-5 > div');
     // Title, authors, narrators, series, rating
     var middleColumn = row.find('> div > div.bc-col-responsive.bc-spacing-top-none.bc-col-8 > div > div.bc-col-responsive.bc-col-6 > div');
     if (middleColumn.length < 1) middleColumn = row.find('> div > div.bc-col-responsive.bc-spacing-top-none.bc-col-9 > div > div.bc-col-responsive.bc-col-7 > div');
@@ -203,7 +204,7 @@
     var cover  = leftColumn.find('> div:nth-child(1) > div > div.bc-trigger.bc-pub-block.bc-trigger-popover > a > img');
     book.cover = cover.attr('src');
     
-    var sample = $('[id^="#sample-player-"] > button');
+    var sample = leftColumn.find('[data-mp3]');
     book.sample = sample.length > 0 ? sample.data('mp3') : null;
     
     middleColumn.find('> div > span > ul > div').remove();
@@ -384,7 +385,8 @@
         if ( !slimMarkdown ) {
           /* authors   */  markdown += '    - **Authors:** ' + linkArrayToMarkdown( book.authors ) + '\n';
           /* narrators */  markdown += '    - **Narrators:** ' + linkArrayToMarkdown( book.narrators ) + '\n';
-          /* series    */  if ( book.series ) markdown += '    - **Series:** ' + linkArrayToMarkdown( book.series, true ) + '\n';
+          /* series    */  if (book.series) markdown += '    - **Series:** ' + linkArrayToMarkdown(book.series, true) + '\n';
+          /* sample    */  if (book.sample) markdown += '    - **Sample:** [play sample](' + book.sample + ') \n';
           /* length    */  markdown += '    - **Length:** ' + book.length + '\n' ;
           /* released  */  markdown += '    - **Released:** ' + book.releaseDate + '\n' ;
           /* language  */  if ( book.language ) markdown += '    - **Language:** ' + book.language + '\n';
@@ -403,6 +405,7 @@
             '<div class="authors"><strong>Authors:</strong> ' + linkArrayToHTML( book.authors ) + '</div>'+
             '<div class="narrators"><strong>Narrators:</strong> ' + linkArrayToHTML( book.narrators ) + '</div>'+
             (book.series ? '<div class="series"><strong>Series:</strong> ' + linkArrayToHTML( book.series, true ) + '</div>' : '') +
+            (book.sample ? '<div class="sample"><strong>Sample:</strong> <a target="_blank" href="'+ book.sample +'">play sample</a></div>' : '') +
             '<div class="length"><strong>Length:</strong> '+ book.length +'</div> \n' +
             '<div class="release"><strong>Released:</strong> '+ book.releaseDate +'</div> \n' +
             (book.language ? '<div class="language"><strong>Language:</strong> '+ book.language +'</div> \n' : '') +
@@ -480,7 +483,7 @@
       marginBottom: 30
     };
     
-    $('<style> html, body, .scraper-row { height: 100% !important; } .scraper-row, .scraper-col-wrapper { display: flex; flex-direction: row; align-content: stretch; align-items: stretch; margin: 0 !important; height: 100%; flex-grow: 1; width: 100%; } .scraper-col-wrapper { flex-direction: column; margin-left: 20px !important; text-align: center; padding-top: 20px; } .scraper-col-wrapper:first-child { margin-left: 0px !important; } textarea { margin-bottom: 0px !important; height: unset !important; flex-grow: 1; height: 100%; }</style>').appendTo('body');
+    $('<style> html, body, .scraper-row { height: 100% !important; margin-bottom: 0 !important; } .scraper-row, .scraper-col-wrapper { display: flex; flex-direction: row; align-content: stretch; align-items: stretch; margin: 0 !important; height: 100%; flex-grow: 1; width: 100%; } .scraper-col-wrapper { flex-direction: column; margin-left: 20px !important; text-align: center; padding-top: 20px; } .scraper-col-wrapper:first-child { margin-left: 0px !important; } textarea { margin-bottom: 0px !important; height: unset !important; flex-grow: 1; height: 100%; }</style>').appendTo('body');
     
     var row = $('<div class="scraper-row">').appendTo('body');
     
