@@ -1,4 +1,4 @@
-// V.1.4.
+// V.1.5.
 (function() {
   
   var slimMarkdown = true;
@@ -201,7 +201,7 @@
     
     var book = {};
     
-    var cover  = leftColumn.find('> div:nth-child(1) > div > div.bc-trigger.bc-pub-block.bc-trigger-popover > a > img');
+    var cover  = leftColumn.find('[data-bc-hires]');
     book.cover = cover.attr('src');
     
     var sample = leftColumn.find('[data-mp3]');
