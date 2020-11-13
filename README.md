@@ -1,8 +1,27 @@
+
+<!-- omit in toc -->
 # Audible Special Promo Sale Scraper
 
-Generates a list of all sale items in: `markdown` that looks [like this on a reddit post](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), `html` that looks [like this](https://codepen.io/joonaspaakko/full/KKVdWwV) when rendered, and `plain text` that looks [like this](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md)
+Generates a list of all sale items in: `markdown` that looks [like this on a reddit post](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), `html` that looks [like this](https://codepen.io/joonaspaakko/full/KKVdWwV) when rendered, and `plain text` that looks [like this](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md). 
 
-Updated to work with the mid summer sale over at US audible: [link to the html output](https://codepen.io/joonaspaakko/live/ExPJROy). Has potential to work with similar sales that have horizontal categories sub menu.
+Now also has a `csv` output that you can import to Google sheets. [Current 3 for 2 sale in google sheets](https://docs.google.com/spreadsheets/d/18Z036vMgU_6jxS5quVLpxCYOzgTe8YcmOrZBaJwEoNs/edit?usp=sharing).
+
+____
+
+- [A word of warning](#a-word-of-warning)
+- [Usage](#usage)
+- [Browser support](#browser-support)
+- [Regional support?](#regional-support)
+- [Format info](#format-info)
+  - [Markdown](#markdown)
+  - [HTML](#html)
+  - [Plain Text](#plain-text)
+  - [JSON](#json)
+  - [CSV](#csv)
+- [Output Example](#output-example)
+
+____
+
 
 ## A word of warning
 
@@ -25,55 +44,6 @@ The console will just about immediately log each book it finds in the console so
 
 ___
 
-### What else?
-
-If you're posting on Reddit, you will probably want the Markdown output. Just make sure to click the `Markdown editor` button in the top right of the post editor before pasting the code in. If you want to preview the markdown code, you should check out this [online Markdown editor](https://pandao.github.io/editor.md/en.html).
-
-**Note:** you can't switch back to the default fancypants editor on reddit or the markdown will get mangled. However, if rich text is more your thing, you can get around that with the formatting staying fairly intact by copying the text from the online markdown editor's preview and paste that into Reddit instead.
-
-## Special features - Isolating new additions ( v.1.2. )
-
-> In v1.3. I added a variable that disables this called `showUniques`. It is off by default. It was ok in theory, but if the sale changed either fully or with just a few repeat titles, the outputs became kinda cluttered and hard to read. It might've been a better idea to just add "new addition" to each book rather than output 2 separate lists.
-
-If you run the script at least once before and once after the sale items change, new additions are detected and they are added to the front of the list. **Check the example below.** But you can only do it once. When you run the script after a change, that's when the comparison happens and the list is overwritten, meaning any following attempts to run the script will just output a clean list, until the sale changes again.
-
-If you failed to get the new additions for whatever reason, you can still use an online comparison tools [like this one](http://barc.wi.mit.edu/cgi-bin/barc/tools/compare.cgi). With tools like this you can figure out if anything changed between the two outputs. This particular tool will show unique lines in each list input in the center.
-
-> Important:
-> - You need to run the script in the same browser for this to work.
-> - If you clear the browser cache, the old list will likely get wiped.
-> - If you run the script on a different sale, or the output is just wrong, you may have to run the script again to clear the old list from the memory.
-
-```markdown
-### Mysteries & Thrillers (New additions)
-1. [Book 2](#)
-  - **Rating:** 4.5 (999)
-
-### Mysteries & Thrillers
-
-1. [Book 1](#)
-  - **Rating:** 4.5 (999)
-2. [Book 2](#)
-  - **Rating:** 4.5 (999)
-3. [Book 3](#)
-  - **Rating:** 4.5 (999)
-```
-
-## Output Examples
-
-### Markdown
-
-An example of what the markdown output looks like in [a reddit post (mobile)](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png).
-
-> There's also a variable at the top called `slimMarkdown`. Making it `false` will give you a beefier output, but there's a good chance it won't fit within the character limit of a Reddit post at least. [Beefy markdown example](full-markdown-output-example.md)
-
-### HTML
-
-[Example in Codepen](https://codepen.io/joonaspaakko/full/KKVdWwV). Codepen is free, but you do need an account. The [full page view](https://blog.codepen.io/documentation/full-page-view/) is probably how you want to send the link to anyone.
-
-### Plain text
-
-Plain text is similar to the slimmed down markdown output, though even a little big slimmer. It's just the title and the url. [Example file](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md).
 
 ## Browser support
 
@@ -82,3 +52,72 @@ Tested in Firefox and Chrome. Should work in other modern browsers too: Safari, 
 ## Regional support?
 
 The script was written specifically for the US 2for1 sale and as such I'm not even certain if it will work in any other sale, let alone a similar sale on a different region. There is a possibility it might.
+
+
+## Format info 
+
+### Markdown
+There's a variable called `slimMarkdown` at the very top of the script. Change this to  `var slimMarkdown = true;` and you'll get the title wrapped in a link to the Audible store page and rating below that. If you want anything slimmer, you're going to have to edit the script. There should be only 2 occurences of `slimMarkdown` so it should be easy to find where to edit it.
+
+You can use online Markdown editors to preview or convert it to another format. At the very least you should be able copy the text from the preview and paste it to your email client and retain the styling.
+
+**Online Markdown editors:**
+
+- [Dillinger](https://dillinger.io/) - Has built in export for `html` and `PDF`
+- [Editor.md](https://pandao.github.io/editor.md/en.html)
+
+> Desktop and some mobile markdown applications may have similar or more extensive export options
+
+### HTML
+When you download the `HTML` it gets a basic html wrapper around making it so you could just upload it as is to a website and share the link. For other use cases, you'll probably want to copy it from the textarea. 
+
+**There are also 3rd party services where you can put the `HTML` and share a link:**
+
+- [codepen](http://codepen.io/) - Requires an account and I also couldn't save my large wishlist unfortunately
+- [jsfiddle](http://jsfiddle.net) 
+- [Github pages](https://pages.github.com/) - A pretty good way to host a simple site. It's not hard to upload your website or single html file in this case, but it is quite the long process, and may be hard to understand if you're not familiar with how github works.
+
+Here's my wishlist [in jsfiddle](https://jsfiddle.net/m1nvxjpw/show/).
+
+### Plain Text
+This is forcefully slimmed down to just the `title → link to audible` because plain text is very plain...
+
+### JSON
+This is the advanced format of the bunch, which all of the outputs as the base. Downloaded file is indented (poorly) and the JSON in the textarea is in single line.
+
+### CSV
+The CSV format is pretty typical, but it does use a couple formulas that I have only tested to be working in Google Sheets. 
+
+Here's [my whole wishlist in goole sheets](https://docs.google.com/spreadsheets/d/1ZyLL6ThekMHN7MMJ4uoMNgoM7VxmKolxP5ZvMvgBzVs/edit?usp=sharing). 
+
+**I have edited it a little after import:**
+
+1. I converted all cells to text to get rid of some wonky weird text alignment (a little more about that below under "how to import csv to Google Sheets")
+    1. Click on the top left corner to select all cells
+    2. Choose text formatting from the `Format` menu (It's somewhere in there)
+2. Made all rows taller to make the cover image bigger
+    1. Click on the top left corner to select all cells
+    2. Drag one of the rows to be taller (the image fits itself in the available space)
+3. General width adjustment of each col
+4. Clipped the text contents of cols `J` and `K`
+    1. Click on both cols...
+    2. And choose Clip from the `Format` menu (It's somewhere in there) 
+5. I edited the header row
+    1. Made the text bold
+    2. Changed text color
+    3. Changed background color
+6. and lastly I froze the header row from the `View` menu
+
+- **[How to import csv to Google Sheets](https://support.google.com/docs/answer/40608?co=GENIE.Platform%3DDesktop&hl=en)**
+    - You'll likely want to use the import option: **Replace spreadsheet**
+    - And you will want it to convert numbers, dates and formulas to make sure formulas work right. 
+      - This does align some numbers and dates differently, but you should be able to fix that by converting all cells to text afterwards.
+      - That said, spreadsheet applications converting what was originally text into numbers is notorious for dropping out changing the formatting in a way that you probably don't want. I didn't see anything weird happening in this case.
+
+## Output Example
+
+Here's the HTML output of my wishlist: [in jsfiddle](https://jsfiddle.net/m1nvxjpw/show/).
+
+I had trouble putting this anywhere because my wishlist is kinda large. I'm a terrible wishlist user. I pretty much put in anything that is vaguely intersting (or not even), like if the cover looks cool or something... In the wishlist you go!
+
+![](preview-img.png)

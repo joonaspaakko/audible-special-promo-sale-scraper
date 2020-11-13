@@ -1,8 +1,7 @@
-// V.1.5.
+// V.1.6.
 (function() {
   
   var slimMarkdown = true;
-  var showUniques = false;
   
   var storage = {
     set: function( name, object) {
@@ -38,9 +37,6 @@
   }
   
   get('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js', function() {
-    if ( storage.data ) {
-      storage.oldData = _.cloneDeep( storage.data );
-    }
     startFromTheTop();
   });
 
@@ -165,19 +161,8 @@
     else {
       
       delete storage.data.category;
-      
       storage.set( storage.name, storage.data );
-      
-      var uniqueBoys = {};
-
-      if ( storage.oldData ) {
-        $.each( storage.data.books, function( categoryName, category ) {
-          var changes = _.differenceBy( category, storage.oldData.books[ categoryName ], 'title');
-          if ( !_.isEmpty( changes ) ) uniqueBoys[ categoryName ] = changes;
-        });
-      }
-      
-      processOutput( uniqueBoys );
+      processOutput( storage.data.books );
       
     }
     
@@ -204,13 +189,9 @@
     var cover  = leftColumn.find('[data-bc-hires]');
     book.cover = cover.attr('src');
     
-    var sample = leftColumn.find('[data-mp3]');
-    book.sample = sample.length > 0 ? sample.data('mp3') : null;
-    
     middleColumn.find('> div > span > ul > div').remove();
     var title  = middleColumn.find('> div > span > ul > li:nth-child(1) > h3 > a');
     book.title = title.length > 0 ? title.text().trimAll() : null;
-    book.page  = title.length > 0 ? window.location.origin + title.attr('href').split('?')[0] + '?ipRedirectOverride=true&overrideBaseCountry=true' : null;
     
     var authors  = middleColumn.find('li.bc-list-item.authorLabel a');
     book.authors = authors.length > 0 ? makeLinkArray( authors ) : null;
@@ -273,6 +254,11 @@
     
     var ratings  = middleColumn.find('> div > span > ul > li.bc-list-item.ratingsLabel > span.bc-text.bc-size-small.bc-color-secondary');
     book.ratings = ratings.length > 0 ? ratings.text().trimAll().match(/([0-9]|\,)+/g)[0] : null;
+    
+    var sample = leftColumn.find('[data-mp3]');
+    book.sample = sample.length > 0 ? sample.data('mp3') : null;
+    
+    book.page  = title.length > 0 ? window.location.origin + title.attr('href').split('?')[0] + '?ipRedirectOverride=true&overrideBaseCountry=true' : null;
     
     console.log( '['+ storage.data.books[ storage.data.category[0].name ].length +']: ' + book.title );
     
@@ -360,12 +346,6 @@
     }());
     html += '<ul class="top-nav">'+ navItems +'</ul>';
     
-    if ( showUniques && !_.isEmpty( uniqueBoys ) ) {
-      $.each( uniqueBoys, function( categoryName, category ) {
-        output( categoryName, category, true );
-      });
-    }
-    
     $.each( storage.data.books, function( categoryName, category ) {
       output( categoryName, category );
     });
@@ -379,7 +359,7 @@
       
       // Books
       $.each( category, function( index, book ) {
-      
+        
         // MARKDOWN
         /*   title     */  markdown += (index+1) + '. ['+ book.title +']('+ book.page +') \n' ;
         if ( !slimMarkdown ) {
@@ -392,10 +372,6 @@
           /* language  */  if ( book.language ) markdown += '    - **Language:** ' + book.language + '\n';
         }
         /* rating    */  if ( book.rating ) markdown += '    - **Rating:** ' + book.rating + ' ('+ book.ratings +') \n';
-        
-        // if ( slimMarkdown) {
-        // 	markdown += (index+1) + '. ['+ book.title +']('+ book.page +')' + (book.rating ? ' - **Rating:** ' + book.rating + ' ('+ book.ratings +')\n' : '\n' ) ;
-        // }
         
         // HTML
         html += '\n\n<div class="book"> \n' +
@@ -416,12 +392,11 @@
         // PLAINTEXT
         plaintext += book.title + ' → '+ book.page +' \n\n';
         
-        
       });
     }
     
     // HTML styling
-    html += '\n\n<style>' +
+    html = '<style>' +
       '.top-nav, .top-nav li {' +
         'margin: 0;' +
         'padding: 0;' +
@@ -458,6 +433,9 @@
         'padding: 20px;' +
         'margin-bottom: 10px;' +
       '}' +
+      '.book:first-child {' +
+        'margin-top: 10px;' +
+      '}' +
       '.book .cover {' +
         'justify-self: center;' +
         'align-self: start;' +
@@ -473,7 +451,7 @@
       '.book .title {' +
         'margin: 0;' +
       '}' +
-    '</style>';
+    '</style> \n\n' + html;
     
     $('body').html('');
     
@@ -498,6 +476,159 @@
     var plaintextWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
     $('<strong>Plain Text:</strong>').appendTo( plaintextWrapper );
     $('<textarea/>', { text: plaintext.trim(), css: textareaCSS }).appendTo( plaintextWrapper );
+    
+    var jsonWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
+    $('<strong>JSON:</strong>').appendTo( jsonWrapper );
+    $('<textarea/>', { text: JSON.stringify(storage.data.books), css: textareaCSS }).appendTo( jsonWrapper );
+    
+    
+    get('https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js', function() {
+        
+      var linkify = function( string, url ) {
+        return '=HYPERLINK("'+ url +'";"'+ string.replace(/\"/g,'""') +'")';
+      };
+      var imagefy = function( url ) {
+        return '=IMAGE("'+ url +'")';
+      };
+      var stringify = function( prop ) {
+        return _.map(prop, function( o ) {
+          if ( !o ) {
+            return '';
+          }
+          else {
+            var bookNumbers = o.bookNumbers ? (' (book ' + o.bookNumbers + ')') : '';
+            return o.name + bookNumbers;
+          }
+        }).join(', ');
+      };
+      
+      var categoryKeys = _.keysIn( storage.data.books );
+      var bookKeys = null;
+      var csvPrepBooks = [];
+      _.each( categoryKeys, function( key, index ) {
+        
+        if ( index === 0 ) {
+          bookKeys = _.keysIn( storage.data.books[ key ][0] );
+        }
+        
+        var emptyRow = { category: '' };
+        var categoryObj = { category: key };
+        
+        _.each( bookKeys, function( key ) {
+          emptyRow[ key ] = '';
+          categoryObj[ key ] = '';
+        });
+        
+        csvPrepBooks.push( emptyRow );
+        csvPrepBooks.push( categoryObj );
+        
+        var catBooks = storage.data.books[ key ];
+        catBooks = _.map( catBooks, function( o ) {
+          o.category = key;
+          return o;
+        });
+        
+        csvPrepBooks = _.concat( csvPrepBooks, catBooks );
+        
+      });
+      
+      var csvBooks = _.map(csvPrepBooks, function( o ) {
+        
+        if ( o.title ) {
+          if ( !o.category ) o.category  = '';
+          o.title     = linkify( o.title, o.page );
+          o.cover     = imagefy( o.cover );
+          o.authors   = stringify( o.authors );
+          o.narrators = stringify( o.narrators );
+          o.series    = stringify( o.series );
+          
+        }
+        
+        return o;
+        
+      });
+      
+      csvPrepBooks = null;
+      
+      var csv = Papa.unparse(csvBooks, {
+        quotes: true, 
+	      quoteChar: '"', 
+      });
+      csvBooks = null;
+      
+      var csvWrapper = $('<div class="scraper-col-wrapper">').appendTo( row );
+      $('<strong>CSV (<small>google sheets</small> ):</strong>').appendTo( csvWrapper );
+      $('<textarea/>', { text: csv, css: textareaCSS }).appendTo( csvWrapper );
+      
+      
+      get("https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js", function() {
+        
+        var strongBoys = $('.scraper-col-wrapper > strong');
+        
+        strongBoys.each(function(i) {
+          
+          var strongBoy = $(this);
+          
+          var dl = $('<button>', {
+            text: 'download'
+          }).insertAfter( strongBoy );
+          
+          var dataString = dl.next('textarea').val();
+          
+          dl.on("click", function() {
+            
+            var headingText = _.camelCase( strongBoy.text() );
+            var mimeType = '';
+            var extension = '';
+            switch ( headingText ) {
+              case "markdown":
+                mimeType = 'text/markdown;charset=utf-8';
+                extension = '.md';
+                break;
+              case "html":
+                mimeType = 'text/html;charset=utf-8';
+                extension = '.html';
+                dataString = 
+                  '<!DOCTYPE html> \n' +
+                  '<html lang="en"> \n' +
+                  '<head> \n' +
+                    '<meta charset="UTF-8"> \n' +
+                    '<meta name="viewport" content="width=device-width, initial-scale=1.0"> \n' +
+                    '<title>Audible Sale</title> \n' +
+                  '</head> \n' +
+                  '<body> \n\n' +
+                    dataString + '\n\n' + 
+                  '</body> \n' +
+                  '</html>';
+                break;
+              case "plainText":
+                mimeType = 'text/plain;charset=utf-8';
+                extension = '.txt';
+                break;
+              case "json":
+                mimeType = 'application/json;charset=utf-8';
+                extension = '.json';
+                dataString = JSON.stringify( storage.data.books, null, 2 );
+                break;
+              case "csv":
+              case "csvGoogleSheets":
+                mimeType = 'text/csv;charset=utf-8';
+                extension = '.csv';
+                break;
+            }
+            
+            var blob = new Blob([dataString], {type: mimeType});
+            saveAs(blob, "Audible Sale" + extension);
+            
+          });
+          
+          
+          
+        });
+        
+      });
+      
+    });
     
   }
   
