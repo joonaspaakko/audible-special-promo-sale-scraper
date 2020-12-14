@@ -4,7 +4,7 @@
 
 Generates a list of all sale items in: `markdown` that looks [like this on a reddit post](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), `html` that looks [like this](https://codepen.io/joonaspaakko/full/KKVdWwV) when rendered, and `plain text` that looks [like this](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md). 
 
-Now also has a `csv` output that you can import to Google sheets: Current sale [Fall Harvest Sale (audible.com) 14/12/2020](https://docs.google.com/spreadsheets/d/1BQ52GkvjvJCcR53EGLtvdiaaLEd0ni-wgKHiKAnFqQE/edit?usp=sharing).
+Now also has a `csv` output that you can import to Google sheets: Current sale [Fall Harvest Sale (audible.com) 17/09/2020](https://docs.google.com/spreadsheets/d/1BQ52GkvjvJCcR53EGLtvdiaaLEd0ni-wgKHiKAnFqQE/edit?usp=sharing).
 
 ____
 
