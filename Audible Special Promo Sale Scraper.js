@@ -1,4 +1,4 @@
-// V.1.6.
+// V.1.7.
 (function() {
   
   var slimMarkdown = true;
@@ -49,7 +49,7 @@
     
     var saleSubmenuExists = $('div.bc-color-background-active.in-page-nav-selected-tab-highlight').length;
     var viewAllLinksExists = $('[id^="carousel-PRODUCT"] > div > div > div > div:nth-child(1) > div > a').length > 0;
-    var selector = (saleSubmenuExists) ? '#center-4 > div > div > div.bc-box.bc-palette-default > div > div > div > div a.bc-link' : '[id^="carousel-PRODUCT"]';
+    var selector = (saleSubmenuExists) ? $('.adbl-main div[role="tab"] > a') : '[id^="carousel-PRODUCT"]';
     
     $(selector).each(function() {
       
@@ -249,11 +249,21 @@
     var language  = middleColumn.find('li.bc-list-item.languageLabel span');
     book.language = language.length > 0 ? language.text().split(':')[1].trimAll() : null;
     
-    var rating  = middleColumn.find('> div > span > ul > li.bc-list-item.ratingsLabel > span.bc-text.bc-pub-offscreen');
-    book.rating = rating.length > 0 ? rating.text().trimAll().match(/([0-9]\.[0-9]|[0-9])+/)[0] : null;
+    var rating  = middleColumn.find('li.ratingsLabel > span:first');
+    book.rating = (function( rating ) {
+      if ( rating.length > 0 ) {
+        var regex = rating.text().trimAll().match(/([0-9]\.[0-9]|[0-9])+/);
+      }
+      return regex ? regex[0] : null;
+    })( rating );
     
-    var ratings  = middleColumn.find('> div > span > ul > li.bc-list-item.ratingsLabel > span.bc-text.bc-size-small.bc-color-secondary');
-    book.ratings = ratings.length > 0 ? ratings.text().trimAll().match(/([0-9]|\,)+/g)[0] : null;
+    var ratings  = middleColumn.find('li.ratingsLabel > span:last');
+    book.ratings = (function( ratings ) {
+      if ( ratings.length > 0 ) {
+        var regex = ratings.text().trimAll().match(/([0-9]|\,)+/g);
+      }
+      return regex ? regex[0] : null;
+    })( ratings );
     
     var sample = leftColumn.find('[data-mp3]');
     book.sample = sample.length > 0 ? sample.data('mp3') : null;
