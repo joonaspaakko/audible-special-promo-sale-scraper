@@ -1,4 +1,4 @@
-// V.1.7.
+// V.1.8.
 (function() {
   
   var slimMarkdown = true;
@@ -187,7 +187,11 @@
     var book = {};
     
     var cover  = leftColumn.find('[data-bc-hires]');
-    book.cover = cover.attr('src');
+    if ( cover.length > 0 ) book.cover = cover.attr('src');
+    else if ( cover.length < 1 ) {
+      cover = row.find('img[data-lazy]');
+      if ( cover.length > 0 ) book.cover = cover.attr('data-lazy');
+    }
     
     middleColumn.find('> div > span > ul > div').remove();
     var title  = middleColumn.find('> div > span > ul > li:nth-child(1) > h3 > a');
