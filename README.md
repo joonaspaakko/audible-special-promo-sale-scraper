@@ -4,7 +4,7 @@
 
 Generates a list of all sale items in: `markdown` that looks [like this on a reddit post](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/phone-reddit-post-example.png), `html` that looks [like this](https://codepen.io/joonaspaakko/full/KKVdWwV) when rendered, and `plain text` that looks [like this](https://github.com/joonaspaakko/audible-special-promo-sale-scraper/blob/master/plaintext-output-example.md). 
 
-Now also has a `csv` output that you can import to Google sheets: Current sale [Fall Harvest Sale (audible.com) 17/09/2020](https://docs.google.com/spreadsheets/d/1BQ52GkvjvJCcR53EGLtvdiaaLEd0ni-wgKHiKAnFqQE/edit?usp=sharing).
+Now also has a `csv` output that you can import to Google sheets: Current sale [2 for 1 sale - Unpauseable (Ends April 16, 2021)](https://docs.google.com/spreadsheets/d/1kyZIMICjZ2bC--FUSFDCEYnE6fMTb0vbR_dtmtnf2sM/edit?usp=sharing).
 
 ____
 
@@ -18,7 +18,6 @@ ____
   - [Plain Text](#plain-text)
   - [JSON](#json)
   - [CSV](#csv)
-- [Output Example](#output-example)
 
 ____
 
@@ -33,7 +32,7 @@ Use at your own risk. I have good intentions, but you shouldn't go copy pasting 
 
 > You don't need to know how to code or read any code to use this script. It would be preferrable, as stated above, but the only thing you need to know is how to copy & paste.
 
-1. **Copy the script** `(Ctrl+C)` into your clipboard from here: [Audible Special Promo Sale Scraper.js](https://raw.githubusercontent.com/joonaspaakko/audible-special-promo-sale-scraper/master/Audible%20Special%20Promo%20Sale%20Scraper.js)
+1. **Copy the script** into your clipboard from here: [Audible Special Promo Sale Scraper.js](https://raw.githubusercontent.com/joonaspaakko/audible-special-promo-sale-scraper/master/Audible%20Special%20Promo%20Sale%20Scraper.js) — `(Ctrl+A)` > `(Ctrl+C)`
 2. **Go to the sale page.**
 	- As an example, here's the current _(June 2020)_ US sale page: [https://www.audible.com/special-promo/2for1](https://www.audible.com/special-promo/2for1).
 	- The script won't work if you navigate to one of the sub pages of the sale. It has to be the first page of the sale.
@@ -113,11 +112,3 @@ Here's [my whole wishlist in goole sheets](https://docs.google.com/spreadsheets/
     - And you will want it to convert numbers, dates and formulas to make sure formulas work right. 
       - This does align some numbers and dates differently, but you should be able to fix that by converting all cells to text afterwards.
       - That said, spreadsheet applications converting what was originally text into numbers is notorious for dropping out changing the formatting in a way that you probably don't want. I didn't see anything weird happening in this case.
-
-## Output Example
-
-Here's the HTML output of my wishlist: [in jsfiddle](https://jsfiddle.net/m1nvxjpw/show/).
-
-I had trouble putting this anywhere because my wishlist is kinda large. I'm a terrible wishlist user. I pretty much put in anything that is vaguely intersting (or not even), like if the cover looks cool or something... In the wishlist you go!
-
-![](preview-img.png)

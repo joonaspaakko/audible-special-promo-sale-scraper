@@ -1,4 +1,4 @@
-// V.1.8.
+// V.1.9.
 (function() {
   
   var slimMarkdown = true;
@@ -73,7 +73,8 @@
       
       if ( categoryURL && categoryName ) {
         
-        var url = new Url(window.location.origin + categoryURL);
+        var strURL = categoryURL.lastIndexOf( window.location.origin ) > -1 ? categoryURL : window.location.origin + categoryURL;
+        var url = new Url( strURL );
         url.query.pageSize = '50';
         url.query.page = '1';
         
@@ -271,7 +272,6 @@
     
     var sample = leftColumn.find('[data-mp3]');
     book.sample = sample.length > 0 ? sample.data('mp3') : null;
-    
     book.page  = title.length > 0 ? window.location.origin + title.attr('href').split('?')[0] + '?ipRedirectOverride=true&overrideBaseCountry=true' : null;
     
     console.log( '['+ storage.data.books[ storage.data.category[0].name ].length +']: ' + book.title );
